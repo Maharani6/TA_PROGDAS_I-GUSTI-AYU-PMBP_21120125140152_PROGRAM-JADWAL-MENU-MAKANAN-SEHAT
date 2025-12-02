@@ -14,7 +14,6 @@ class FoodDatabase {
         ];
     }
 
-    // breads = sources untuk "karbo ringan / roti / sejenisnya"
     public static function breads(): array {
         return [
             ['Sereal',124], ['Roti Tawar + Selai',200], ['Roti Gandum',120], ['Jagung Rebus',106], ['Ubi Rebus',115],
@@ -30,7 +29,6 @@ class FoodDatabase {
         ];
     }
 
-    // proteins: gunakan daftar 'meals' yang mengandung protein sebagai nama method proteins()
     public static function proteins(): array {
         return [
             ['Ayam Geprek',360], ['Ayam Goreng ungkep',245], ['Ayam Goreng Tepung',400], 
@@ -47,9 +45,9 @@ class FoodDatabase {
             ['Salak',77], ['Pir',100], ['Nanas',85], ['Anggur',70]
         ];
     }
-
-    // helper: gabungkan veg + fruits jika diperlukan
+    
     // public static function vegfruits(): array {
     // return array_merge(self::vegetables(), self::fruits());
     // }
 }
+
