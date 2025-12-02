@@ -1,10 +1,10 @@
 <?php
 class User {
-    private string $gender; // 'L' or 'P'
+    private string $gender; // 'L' atau 'P'
     private int $age;
     private float $weight; // kg
     private float $height; // cm
-    private int $activityLevel; // 1..5
+    private int $activityLevel; // 1 sampai 5
 
     public function __construct(string $gender, int $age, float $weight, float $height, int $activityLevel) {
         $this->gender = strtoupper($gender);
@@ -41,4 +41,5 @@ class User {
     public function calculateTDEE(): float {
         return $this->calculateBMR() * $this->activityFactor();
     }
+
 }
