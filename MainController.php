@@ -9,12 +9,8 @@ class MainController {
 
     private array $days = ["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu"];
 
-    // Maksimum kemunculan per item dalam seminggu (MODE B)
     private int $MAX_PER_WEEK = 2;
 
-    // -----------------------
-    // Filter kandidat yang boleh dipakai
-    // -----------------------
     private function filterAllowed(array $list, array $counts, array $forbiddenNames): array {
         $candidates = [];
         foreach ($list as $item) {
@@ -27,32 +23,26 @@ class MainController {
         return $candidates;
     }
 
-    // -----------------------
-    // Ambil kandidat terbaik tetapi beri variasi:
-    // - ambil top N paling dekat, lalu random diantara top N
-    // - kalau kosong -> fallback random (mengabaikan batas)
-    // -----------------------
     private function pickClosestAllowed(array $list, int $target, array &$counts, array $forbiddenNames = [], int $topN = 3): array {
         $candidates = $this->filterAllowed($list, $counts, $forbiddenNames);
 
         if (!empty($candidates)) {
-            // hitung perbedaan dan urutkan
+            
             usort($candidates, function($a, $b) use ($target) {
                 return abs($a[1] - $target) <=> abs($b[1] - $target);
             });
 
-            // ambil top N (atau sebanyak available)
+           
             $top = array_slice($candidates, 0, min($topN, count($candidates)));
 
-            // pilih random di antara top untuk variasi
             $pick = $top[array_rand($top)];
 
-            // update count
+           
             $counts[$pick[0]] = ($counts[$pick[0]] ?? 0) + 1;
             return $pick;
         }
 
-        // fallback: ambil random dari list yang tidak terlarang (jika ada)
+        
         $fallback = [];
         foreach ($list as $item) {
             if (!in_array($item[0], $forbiddenNames, true)) $fallback[] = $item;
@@ -63,16 +53,12 @@ class MainController {
         return $pick;
     }
 
-    // -----------------------
-    // Helper: ambil total kalori dari array item [ [name,cal], ... ]
-    // -----------------------
     private function totalCal(array $items): int {
         return array_sum(array_map(fn($x) => $x[1], $items));
     }
 
-    // -----------------------
-    // Generate weekly schedule (mode B)
-    // -----------------------
+    // Generate weekly schedule 
+   
     public function generateWeeklySchedule(User $user): array {
 
         $tdee = $user->calculateTDEE();
@@ -184,7 +170,6 @@ class MainController {
             $tdeeInt = (int) round($tdee);
             $remaining = max(0, $tdeeInt - $totalDay);
 
-            // store as in index.php expected format
             $schedule[$day] = [
                 'tdee' => round($tdee, 3),
                 'breakfast' => ['name' => implode(", ", $bNames), 'cal' => $bCal, 'note' => implode(", ", $bNames)],
@@ -198,3 +183,4 @@ class MainController {
         return $schedule;
     }
 }
+
